@@ -1,0 +1,6 @@
+json
+numpy
+matplotlib
+seaborn
+sentence_transformers
+
