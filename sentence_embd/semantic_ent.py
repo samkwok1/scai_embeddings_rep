@@ -20,7 +20,7 @@ def plot_scores(data_set):
     data = np.triu(data_set, k=0)
     colormap = sns.color_palette("mako", as_cmap=True)
     ax = sns.heatmap(data, linewidths=0.5, cmap=colormap, annot=True)
-    plt.title = ('Semantic Entropy Across Epochs')
+    ax.set_title('Semantic Entropy Across Epochs')
     plt.show()
 
 def sequential_score(sys_messages):
