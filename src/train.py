@@ -42,13 +42,13 @@ def main(args: DictConfig) -> None:
     tokenizer =  AutoTokenizer.from_pretrained(args.model.tokenizer_name)
 
     # 2 Dataset
-    # dataset = ProcessConversationData(args.data.input_file, args.data.num_users, args.data.num_epochs, args.data.method, args.data.output_file)
-    # dataset.main()
-    # output_file = args.data.output_file
-    dataset = load_dataset("json", data_files=args.data.output_file)
+    dataset = ProcessConversationData(args.data.input_file, args.data.num_users, args.data.num_epochs, args.data.method, args.data.output_file)
+    dataset.main()
+    output_file = args.data.output_file
+    dataset = load_dataset("json", data_files=output_file)
     train_dataset = dataset['train']
     eval_dataset = dataset['test']
-    print(dataset["train"][0])
+    print(dataset)
 
     # print("98472489710892346123841209", dataset['train'][4])
 

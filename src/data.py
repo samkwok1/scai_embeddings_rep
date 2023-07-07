@@ -107,11 +107,11 @@ class ProcessConversationData:
                 f.write(interaction)
 
     def write_to_json_file(self, filepath, data_dict):
-        json_dict = {}
         with open(filepath, 'w') as f:
             for i, v in data_dict.items():
-                json_dict[i] = f"User interaction with Assistant:\n{v[1]} {v[0]}\n<end of text>\n"
-            json.dump(json_dict, f)
+                json_dict = {}
+                json_dict["user"] = f"{i} interaction with Assistant:\n{v[1]} {v[0]}\n<end of text>\n"
+                json.dump(json_dict, f)
 
     def main(self):
         # Argument line: data-file | num_users | epochs | method | optional_file_name (if method is -c)

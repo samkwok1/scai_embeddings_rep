@@ -1,16 +1,16 @@
 hydra:
   run:
-    dir: data/${sim.sim_dir}/${sim.sim_id}
+    dir: data/results/${sim.sim_dir}/${sim.sim_id}
 
 sim:
-  sim_dir: "run_0"
-  sim_id: "0"
+  sim_dir: "run_1"
+  sim_id: "1"
   
 data:
   num_users: 2
   num_epochs: 5
-  input_file: "data/conversation_data.json"
-  output_file: "data/mytext4.json"
+  input_file: "data/input_text/conversation_data.json"
+  output_file: "data/output_text/mytext4.json"
   method: "-c"
   train_eval_split: 0.8
 

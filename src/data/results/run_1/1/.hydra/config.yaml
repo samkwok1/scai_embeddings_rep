@@ -1,0 +1,19 @@
+sim:
+  sim_dir: run_1
+  sim_id: '1'
+data:
+  num_users: 2
+  num_epochs: 5
+  input_file: data/input_text/conversation_data.json
+  output_file: data/output_text/mytext4.json
+  method: -c
+  train_eval_split: 0.8
+model:
+  model_name: roneneldan/TinyStories-1M
+  tokenizer_name: EleutherAI/gpt-neo-125M
+training:
+  log_level: critical
+  do_train: true
+  overwrite_output_dir: false
+  max_steps: 10
+  full_determinism: true
