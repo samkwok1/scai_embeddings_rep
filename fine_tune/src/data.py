@@ -41,7 +41,7 @@ def verbose_dict(data, users):
     for i, value in enumerate(data.values()):
         # Get the system Message values during the inital run
         if i == 0:
-            system_messages = [dic["response"] for dic in value]  # Not sure about functionality, is this simply: system_messages = value["response"]?
+            system_messages = [dic["response"] for dic in value]
         # If you're the assistant data fields, record the tasks and the responses
         elif i & 1:
             tasks.append([dic["prompt"].split("\n\n")[1] for dic in value])
@@ -68,23 +68,25 @@ def verbose_dict(data, users):
 def create_conversation_text(responses, feedback):
     return ' '.join([f'Response: {r} Feedback: {f}' for r, f in zip(responses, feedback)])
 
-def conv_dict_with_data(responses, feedback, users):
+def conv_dict_with_data(responses, feedback, users, tasks):
     # Create the dictionary that holds just the text conversation data
     succint_dict = {}
     for i in range(users):
-        succint_dict["User " + str(i)] = create_conversation_text(responses[i], feedback[i])
+        succint_dict["User " + str(i)] = [create_conversation_text(responses[i], feedback[i]), tasks[i]]
     return succint_dict
 
 def conv_dict(data, users):
     responses = []
+    tasks = []
     feedback = []
-    for i, (_, value) in enumerate(data.items()):
+    for i, value in enumerate(data.values()):
         # Skip the system message on the initial run
         if i == 0:
             continue
         # if you're on an assistant dict, get the assistant responses
         elif i & 1:
             responses.append([dic["response"] for dic in value])
+            tasks.append([dic["prompt"].split("\n\n")[1] for dic in value])
         # otherwise, you're on a user dict, get the user feedback
         else:
             feedback.append([dic["response"] for dic in value])
@@ -93,7 +95,7 @@ def conv_dict(data, users):
 
 def write_to_text_file(filepath, data_dict):
     with open(filepath, 'w') as f:
-        f.write('\n<|endoftext|>\n'.join([f'{i} interaction with Assistant\n{v}' for i, v in data_dict.items()]))
+        f.write('\n<|endoftext|>\n'.join([f'{i} has task: {v[1]}, interaction with Assistant\n{v[0]}' for i, v in data_dict.items()]))
 
 def main():
     # Argument line: data-file | num_users | epochs | method | optional_file_name (if method is -c)
