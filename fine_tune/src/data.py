@@ -21,12 +21,27 @@ def verbose_dict(data, users):
         User 0: {sys_mes: [], tasks: [], assist_resp: [], user_p: X, user_f: [], user_r: [], text: ""}
         User 1: {sys_mes: [], tasks: [], assist_resp: [], user_p: Y, user_f: [], user_r: [], text: ""}    
     }
+
+    Suggested json file struture: (ask Sam: is this what we want?)
+    {
+        "SystemMessage": {"response": []}
+        "Assistant 0": { "prompt": [], "response": []}
+        "User 0": { "prompt": [], "response": [],satisfaction: [], harmlessness: []}
+        "Assistant 1": { "prompt": [], "response": []}
+        "User 1": { "prompt": [], "response": [],satisfaction: [], harmlessness: []}
+        "Assistant 2": { "prompt": [], "response": []}
+        "User 2": { "prompt": [], "response": [],satisfaction: [], harmlessness: []}
+        "Assistant 3": { "prompt": [], "response": []}
+        "User 3": { "prompt": [], "response": [],satisfaction: [], harmlessness: []}
+    }
+
+
     """
     tasks, responses, personas, feedback, ratings = [], [], [], [], []
-    for i, (_, value) in enumerate(data.items()):
+    for i, value in enumerate(data.values()):
         # Get the system Message values during the inital run
         if i == 0:
-            system_messages = [dic["response"] for dic in value]
+            system_messages = [dic["response"] for dic in value]  # Not sure about functionality, is this simply: system_messages = value["response"]?
         # If you're the assistant data fields, record the tasks and the responses
         elif i & 1:
             tasks.append([dic["prompt"].split("\n\n")[1] for dic in value])
@@ -38,7 +53,7 @@ def verbose_dict(data, users):
             ratings.append([(dic["Satisfaction"], dic["Harmlessness (community)"]) for dic in value])
     # Create the verbose_dict using the lists 
     verbose_dict = {i: {
-            "sys_mes": system_messages[i], 
+            "sys_mes": system_messages[i], # potential index out of range error: only one system message
             "tasks": tasks[i],
             "assist_resp": responses[i],
             "user_p": personas[i],

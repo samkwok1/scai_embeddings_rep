@@ -1,0 +1,11 @@
+{
+    "SystemMessage": {"response": []},
+    "Assistant 0": { "prompt": [], "response": []},
+    "User 0": { "prompt": [], "response": [],"satisfaction": [], "harmlessness": []},
+    "Assistant 1": { "prompt": [], "response": []},
+    "User 1": { "prompt": [], "response": [],"satisfaction": [], "harmlessness": []},
+    "Assistant 2": { "prompt": [], "response": []},
+    "User 2": { "prompt": [], "response": [],"satisfaction": [], "harmlessness": []},
+    "Assistant 3": { "prompt": [], "response": []},
+    "User 3": { "prompt": [], "response": [],"satisfaction": [], "harmlessness": []},
+}
