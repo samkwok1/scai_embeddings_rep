@@ -53,7 +53,7 @@ def verbose_dict(data, users):
             ratings.append([(dic["Satisfaction"], dic["Harmlessness (community)"]) for dic in value])
     # Create the verbose_dict using the lists 
     verbose_dict = {i: {
-            "sys_mes": system_messages[i], # potential index out of range error: only one system message
+            "sys_mes": system_messages,
             "tasks": tasks[i],
             "assist_resp": responses[i],
             "user_p": personas[i],
@@ -86,16 +86,19 @@ def conv_dict(data, users):
         # if you're on an assistant dict, get the assistant responses
         elif i & 1:
             responses.append([dic["response"] for dic in value])
-            tasks.append([dic["prompt"].split("\n\n")[1] for dic in value])
+            tasks.append(value[0]["prompt"].split("\n\n")[1])
         # otherwise, you're on a user dict, get the user feedback
         else:
             feedback.append([dic["response"] for dic in value])
 
-    return conv_dict_with_data(responses, feedback, users)
+    return conv_dict_with_data(responses, feedback, users, tasks)
 
 def write_to_text_file(filepath, data_dict):
     with open(filepath, 'w') as f:
-        f.write('\n<|endoftext|>\n'.join([f'{i} has task: {v[1]}, interaction with Assistant\n{v[0]}' for i, v in data_dict.items()]))
+        for key, value in data_dict.items():
+            interaction = f"{key} interaction with Assistant:\n{value[1]} {value[0]}\n<end of text>\n"
+            f.write(interaction)
+
 
 def main():
     # Argument line: data-file | num_users | epochs | method | optional_file_name (if method is -c)
